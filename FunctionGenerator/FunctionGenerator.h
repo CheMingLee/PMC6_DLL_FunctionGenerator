@@ -30,6 +30,7 @@ public:
 	virtual BOOL InitInstance();
 	DllExport void InitialDev();
 	DllExport void SetLED(unsigned int u32LEDdata);
+	DllExport void CloseDev();
 
 	DECLARE_MESSAGE_MAP()
 };

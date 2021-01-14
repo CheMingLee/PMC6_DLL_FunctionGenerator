@@ -69,7 +69,6 @@ DllExport void InitialDev()
 	g_DevPMC6.Dev_Open();
 }
 
-
 DllExport void SetLED(unsigned int u32LEDdata)
 {
 	unsigned short usCmd;
@@ -81,4 +80,9 @@ DllExport void SetLED(unsigned int u32LEDdata)
 	usSize = sizeof(u32LEDdata);
 
 	PCI_Write_Datas(usCmd, pData, usSize);
+}
+
+DllExport void CloseDev()
+{
+	g_DevPMC6.Dev_Close();
 }

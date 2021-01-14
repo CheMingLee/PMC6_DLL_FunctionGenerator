@@ -5,10 +5,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FunctionGenerator", "Functi
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_x64|Win32 = Debug_x64|Win32
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B54FFAC6-AED7-467B-9E31-DBF42F6A5172}.Debug_x64|Win32.ActiveCfg = Debug_x64|Win32
+		{B54FFAC6-AED7-467B-9E31-DBF42F6A5172}.Debug_x64|Win32.Build.0 = Debug_x64|Win32
 		{B54FFAC6-AED7-467B-9E31-DBF42F6A5172}.Debug|Win32.ActiveCfg = Debug|Win32
 		{B54FFAC6-AED7-467B-9E31-DBF42F6A5172}.Debug|Win32.Build.0 = Debug|Win32
 		{B54FFAC6-AED7-467B-9E31-DBF42F6A5172}.Release|Win32.ActiveCfg = Release|Win32

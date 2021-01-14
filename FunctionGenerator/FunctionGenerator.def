@@ -4,3 +4,6 @@ LIBRARY      "FunctionGenerator"
 
 EXPORTS
     ; 明確匯出可置於此
+InitialDev @ 1
+SetLED @ 2
+CloseDev @ 3

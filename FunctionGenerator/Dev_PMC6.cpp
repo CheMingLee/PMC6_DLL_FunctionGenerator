@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "Dev_PMC6.h"
 #include "guid_def.h"
 #include <setupapi.h>
