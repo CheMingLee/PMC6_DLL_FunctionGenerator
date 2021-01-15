@@ -69,17 +69,28 @@ DllExport void InitialDev()
 	g_DevPMC6.Dev_Open();
 }
 
-DllExport void SetLED(unsigned int u32LEDdata)
+DllExport unsigned int SetLED(unsigned int u32LEDdata)
 {
 	unsigned short usCmd;
 	char *pData;
 	unsigned short usSize;
+	unsigned int u32LEDstatus;
 	
-	usCmd = SETLED;
+	usCmd = CMD_SETLED;
 	pData = (char *)&u32LEDdata;
 	usSize = sizeof(u32LEDdata);
 
-	PCI_Write_Datas(usCmd, pData, usSize);
+	BOOL bRet = PCI_Write_Datas(usCmd, pData, usSize);
+	if (bRet)
+	{
+		memcpy(&u32LEDstatus, g_DevPMC6.m_ReadBuffer, sizeof(u32LEDstatus));
+	}
+	else
+	{
+		u32LEDstatus = 0;
+	}
+
+	return u32LEDstatus;
 }
 
 DllExport void CloseDev()

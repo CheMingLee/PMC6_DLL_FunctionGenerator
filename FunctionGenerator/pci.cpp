@@ -519,7 +519,16 @@ WORD PCI_Read(BYTE* data_buf,DWORD data_count)
 //判斷是否需要回應
 BOOL PCI_CheckReplay(unsigned short usCmd)
 {
-	return FALSE;
+	BOOL bReBack;
+
+	bReBack = FALSE;
+
+	if (usCmd == CMD_SETLED)
+	{
+		bReBack = TRUE;
+	}
+	
+	return bReBack;
 }
 
 BOOL	PCI_Write_Datas(unsigned short usCmd, char *pData,unsigned short usSize)

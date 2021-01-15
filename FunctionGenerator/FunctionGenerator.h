@@ -14,7 +14,6 @@
 #include "pci.h"
 
 #define DllExport __declspec(dllexport)
-#define SETLED 0
 
 // CFunctionGeneratorApp
 // 這個類別的實作請參閱 FunctionGenerator.cpp
@@ -29,7 +28,7 @@ public:
 public:
 	virtual BOOL InitInstance();
 	DllExport void InitialDev();
-	DllExport void SetLED(unsigned int u32LEDdata);
+	DllExport unsigned int SetLED(unsigned int u32LEDdata);
 	DllExport void CloseDev();
 
 	DECLARE_MESSAGE_MAP()
