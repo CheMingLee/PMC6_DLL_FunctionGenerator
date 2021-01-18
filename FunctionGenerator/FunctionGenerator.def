@@ -5,5 +5,9 @@ LIBRARY      "FunctionGenerator"
 EXPORTS
     ; 明確匯出可置於此
 InitialDev @ 1
-SetLED @ 2
-CloseDev @ 3
+CloseDev @ 2
+SetLED @ 3
+SetPWM_JF8 @ 4
+SetPWM_JF7 @ 5
+SetAnalog_1 @ 6
+SetAnalog_2 @ 7

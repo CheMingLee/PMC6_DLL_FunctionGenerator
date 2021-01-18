@@ -64,17 +64,23 @@ BOOL CFunctionGeneratorApp::InitInstance()
 
 
 // FunctionGenerator DLL
+
 DllExport void InitialDev()
 {
 	g_DevPMC6.Dev_Open();
 }
 
-DllExport unsigned int SetLED(unsigned int u32LEDdata)
+DllExport void CloseDev()
+{
+	g_DevPMC6.Dev_Close();
+}
+
+DllExport unsigned int SetLED(unsigned int  u32LEDdata)
 {
 	unsigned short usCmd;
 	char *pData;
 	unsigned short usSize;
-	unsigned int u32LEDstatus;
+	unsigned int  u32LEDstatus;
 	
 	usCmd = CMD_SETLED;
 	pData = (char *)&u32LEDdata;
@@ -87,13 +93,61 @@ DllExport unsigned int SetLED(unsigned int u32LEDdata)
 	}
 	else
 	{
+		AfxMessageBox(_T("ERROR: PCI failed to read data."));
 		u32LEDstatus = 0;
 	}
 
 	return u32LEDstatus;
 }
 
-DllExport void CloseDev()
+DllExport void SetPWM_JF8(CMD_PWM CmdData)
 {
-	g_DevPMC6.Dev_Close();
+	unsigned short usCmd;
+	char *pData;
+	unsigned short usSize;
+
+	usCmd = CMD_SETOUTPUT;
+	pData = (char  *)&CmdData;
+	usSize = sizeof(CmdData);
+
+	PCI_Write_Datas(usCmd, pData, usSize);
+}
+
+DllExport void SetPWM_JF7(CMD_PWM CmdData)
+{
+	unsigned short usCmd;
+	char *pData;
+	unsigned short usSize;
+
+	usCmd = CMD_SETOUTPUTEX;
+	pData = (char  *)&CmdData;
+	usSize = sizeof(CmdData);
+
+	PCI_Write_Datas(usCmd, pData, usSize);
+}
+
+DllExport void SetAnalog_1(CMD_ANALOG CmdData)
+{
+	unsigned short usCmd;
+	char *pData;
+	unsigned short usSize;
+
+	usCmd = CMD_SETANALOG1OUT;
+	pData = (char  *)&CmdData;
+	usSize = sizeof(CmdData);
+
+	PCI_Write_Datas(usCmd, pData, usSize);
+}
+
+DllExport void SetAnalog_2(CMD_ANALOG CmdData)
+{
+	unsigned short usCmd;
+	char *pData;
+	unsigned short usSize;
+
+	usCmd = CMD_SETANALOG2OUT;
+	pData = (char  *)&CmdData;
+	usSize = sizeof(CmdData);
+
+	PCI_Write_Datas(usCmd, pData, usSize);
 }

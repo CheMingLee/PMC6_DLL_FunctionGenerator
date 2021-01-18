@@ -531,24 +531,23 @@ BOOL PCI_CheckReplay(unsigned short usCmd)
 	return bReBack;
 }
 
-BOOL	PCI_Write_Datas(unsigned short usCmd, char *pData,unsigned short usSize)
+BOOL PCI_Write_Datas(unsigned short usCmd, char *pData, unsigned short usSize)
 {
 	BOOL bRet = TRUE;
 
-
 	BYTE szExt[256];
-	BYTE	ReadBuf[256];
-	ULONG	ReturnLen;
-	ULONG	ReBack = PCI_CheckReplay(usCmd);
-	BOOL	Ret = PCI_READ_END;
+	BYTE ReadBuf[256];
+	ULONG ReturnLen;
+	ULONG ReBack = PCI_CheckReplay(usCmd);
+	BOOL Ret = PCI_READ_END;
 
-	memcpy(szExt,&usCmd,2);
-	memcpy(szExt + 2,&usSize,2);
+	memcpy(szExt, &usCmd, 2);
+	memcpy(szExt + 2, &usSize, 2);
 	if(usSize > 0 && usSize <= 252)
-		memcpy(szExt + 4,pData,usSize);
+		memcpy(szExt + 4, pData, usSize);
 	do
 	{
-		if(!PCI_TransmitBlock(szExt,4 + usSize,ReadBuf,sizeof(ReadBuf),&ReturnLen,ReBack))
+		if(!PCI_TransmitBlock(szExt, 4 + usSize, ReadBuf, sizeof(ReadBuf), &ReturnLen, ReBack))
 		{
 			bRet = FALSE;
 			break;
@@ -561,7 +560,7 @@ BOOL	PCI_Write_Datas(unsigned short usCmd, char *pData,unsigned short usSize)
 			{
 				unsigned short FbCmd;
 
-				memcpy(&FbCmd,ReadBuf,2);
+				memcpy(&FbCmd, ReadBuf, 2);
 
 				if(FbCmd != usCmd)
 					Ret = PCI_RETRY;
@@ -569,9 +568,9 @@ BOOL	PCI_Write_Datas(unsigned short usCmd, char *pData,unsigned short usSize)
 				{
 					unsigned short FbSize;
 
-					memcpy(&FbSize,ReadBuf + 2,2);
-					memset(&g_DevPMC6.m_ReadBuffer[g_DevPMC6.m_dwSelectCard][0],0,256);
-					memcpy(&g_DevPMC6.m_ReadBuffer[g_DevPMC6.m_dwSelectCard][0],ReadBuf + 4,FbSize);
+					memcpy(&FbSize, ReadBuf + 2, 2);
+					memset(&g_DevPMC6.m_ReadBuffer[g_DevPMC6.m_dwSelectCard][0], 0, 256);
+					memcpy(&g_DevPMC6.m_ReadBuffer[g_DevPMC6.m_dwSelectCard][0], ReadBuf + 4, FbSize);
 					Ret = PCI_READ_END;
 				}
 			}
@@ -579,4 +578,3 @@ BOOL	PCI_Write_Datas(unsigned short usCmd, char *pData,unsigned short usSize)
 	}while(Ret == PCI_RETRY);
 	return bRet;
 }
-
