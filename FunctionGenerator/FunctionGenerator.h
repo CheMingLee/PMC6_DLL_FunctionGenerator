@@ -16,6 +16,7 @@
 
 // CMD structure
 typedef struct {
+	unsigned int m_iChannel;
 	float m_fFreq;
 	float m_fDuty;
 	float m_fDelay;
