@@ -9,3 +9,5 @@ CloseDev @ 2
 SetLED @ 3
 SetPWM @ 4
 SetAnalog @ 5
+GetLED @ 6
+GetDigital_Freq @ 7

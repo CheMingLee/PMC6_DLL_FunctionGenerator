@@ -50,6 +50,8 @@ public:
 	DllExport unsigned int SetLED(unsigned int u32LEDdata);
 	DllExport void SetPWM(CMD_PWM CmdData);
 	DllExport void SetAnalog(CMD_ANALOG CmdData);
+	DllExport unsigned int GetLED();
+	DllExport float GetDigital_Freq(int iCH);
 	
 	DECLARE_MESSAGE_MAP()
 };
