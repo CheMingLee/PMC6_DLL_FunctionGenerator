@@ -48,10 +48,8 @@ public:
 	DllExport void InitialDev();
 	DllExport void CloseDev();
 	DllExport unsigned int SetLED(unsigned int u32LEDdata);
-	DllExport void SetPWM_JF8(CMD_PWM CmdData);
-	DllExport void SetPWM_JF7(CMD_PWM CmdData);
-	DllExport void SetAnalog_1(CMD_ANALOG CmdData);
-	DllExport void SetAnalog_2(CMD_ANALOG CmdData);
+	DllExport void SetPWM(CMD_PWM CmdData);
+	DllExport void SetAnalog(CMD_ANALOG CmdData);
 	
 	DECLARE_MESSAGE_MAP()
 };

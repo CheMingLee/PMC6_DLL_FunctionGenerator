@@ -94,59 +94,49 @@ DllExport unsigned int SetLED(unsigned int  u32LEDdata)
 	else
 	{
 		AfxMessageBox(_T("ERROR: PCI failed to read data."));
-		u32LEDstatus = 0;
+		u32LEDstatus = 999;
 	}
 
 	return u32LEDstatus;
 }
 
-DllExport void SetPWM_JF8(CMD_PWM CmdData)
+DllExport void SetPWM(CMD_PWM CmdData, int iCH)
 {
 	unsigned short usCmd;
 	char *pData;
 	unsigned short usSize;
 
-	usCmd = CMD_SETOUTPUT;
-	pData = (char  *)&CmdData;
+	if (iCH < 16)
+	{
+		usCmd = CMD_SETOUTPUT;
+	}
+	else
+	{
+		usCmd = CMD_SETOUTPUTEX;
+	}
+	
+	pData = (char *)&CmdData;
 	usSize = sizeof(CmdData);
 
 	PCI_Write_Datas(usCmd, pData, usSize);
 }
 
-DllExport void SetPWM_JF7(CMD_PWM CmdData)
+DllExport void SetAnalog(CMD_ANALOG CmdData, int iCH)
 {
 	unsigned short usCmd;
 	char *pData;
 	unsigned short usSize;
 
-	usCmd = CMD_SETOUTPUTEX;
-	pData = (char  *)&CmdData;
-	usSize = sizeof(CmdData);
-
-	PCI_Write_Datas(usCmd, pData, usSize);
-}
-
-DllExport void SetAnalog_1(CMD_ANALOG CmdData)
-{
-	unsigned short usCmd;
-	char *pData;
-	unsigned short usSize;
-
-	usCmd = CMD_SETANALOG1OUT;
-	pData = (char  *)&CmdData;
-	usSize = sizeof(CmdData);
-
-	PCI_Write_Datas(usCmd, pData, usSize);
-}
-
-DllExport void SetAnalog_2(CMD_ANALOG CmdData)
-{
-	unsigned short usCmd;
-	char *pData;
-	unsigned short usSize;
-
-	usCmd = CMD_SETANALOG2OUT;
-	pData = (char  *)&CmdData;
+	if (iCH < 1)
+	{
+		usCmd = CMD_SETANALOG1OUT;
+	}
+	else
+	{
+		usCmd = CMD_SETANALOG2OUT;
+	}
+	
+	pData = (char *)&CmdData;
 	usSize = sizeof(CmdData);
 
 	PCI_Write_Datas(usCmd, pData, usSize);

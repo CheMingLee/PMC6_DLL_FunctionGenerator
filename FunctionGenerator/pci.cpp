@@ -31,9 +31,9 @@ void PCI_ShowErrCode(BYTE byErrCode,BYTE bReturnCode)
 {
 	char			szT[256];
 
-#ifndef _DEBUG
-	return;
-#endif
+	#ifndef _DEBUG
+		return;
+	#endif
 
 	g_lErr++;
 
@@ -59,57 +59,57 @@ BOOL PCI_TransmitBlock(BYTE *WBuf,ULONG WSize,BYTE *RBuf,ULONG RBSize,ULONG *RSi
 {
 	BYTE  TBuf[256];
 	DWORD IoctlCode = IOCTL_GPD_TRANSMITBLOCK;
-#ifndef PMC6_WIN64
-	DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard];
-#else
-	UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard];
-#endif
+	#ifndef PMC6_WIN64
+		DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard];
+	#else
+		UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard];
+	#endif
 
-#ifdef _NOCARD
-	if(g_DevPMC6.m_hHandle[g_DevPMC6.m_dwSelectCard] == NULL)
-	{
-		return FALSE;
-	}
-#endif
+	#ifdef _NOCARD
+		if(g_DevPMC6.m_hHandle[g_DevPMC6.m_dwSelectCard] == NULL)
+		{
+			return FALSE;
+		}
+	#endif
 
-	if(WSize > (248))
-		return FALSE;
+		if(WSize > (248))
+			return FALSE;
 
-#ifndef PMC6_WIN64
-	*(PULONG)TBuf = addr;
-	*(PULONG)(TBuf + 4) = BackData;
-	*(PULONG)(TBuf + 8) = WSize;
-	
-	memcpy(TBuf + 12,WBuf,WSize);
-
-
-	return g_DevPMC6.Dev_DeviceIo(                            
-          IoctlCode,          // IO Control code for Read
-          TBuf,				// Buffer to driver.
-          WSize + 12,		// Length of buffer in bytes.
-          RBuf,        // Buffer from driver.
-          RBSize,         // Length of buffer in bytes.
-          RSize,    // Bytes placed in DataBuffer.
-          NULL                // NULL means wait till op. completes.
-          );
-#else
-	*(PUINT64)TBuf = addr;
-	*(PULONG)(TBuf + 8) = BackData;
-	*(PULONG)(TBuf + 12) = WSize;
-	
-	memcpy(TBuf + 16,WBuf,WSize);
+	#ifndef PMC6_WIN64
+		*(PULONG)TBuf = addr;
+		*(PULONG)(TBuf + 4) = BackData;
+		*(PULONG)(TBuf + 8) = WSize;
+		
+		memcpy(TBuf + 12,WBuf,WSize);
 
 
-	return g_DevPMC6.Dev_DeviceIo(                            
-          IoctlCode,          // IO Control code for Read
-          TBuf,				// Buffer to driver.
-          WSize + 16,		// Length of buffer in bytes.
-          RBuf,        // Buffer from driver.
-          RBSize,         // Length of buffer in bytes.
-          RSize,    // Bytes placed in DataBuffer.
-          NULL                // NULL means wait till op. completes.
-          );
-#endif
+		return g_DevPMC6.Dev_DeviceIo(                            
+			IoctlCode,          // IO Control code for Read
+			TBuf,				// Buffer to driver.
+			WSize + 12,		// Length of buffer in bytes.
+			RBuf,        // Buffer from driver.
+			RBSize,         // Length of buffer in bytes.
+			RSize,    // Bytes placed in DataBuffer.
+			NULL                // NULL means wait till op. completes.
+			);
+	#else
+		*(PUINT64)TBuf = addr;
+		*(PULONG)(TBuf + 8) = BackData;
+		*(PULONG)(TBuf + 12) = WSize;
+		
+		memcpy(TBuf + 16,WBuf,WSize);
+
+
+		return g_DevPMC6.Dev_DeviceIo(                            
+			IoctlCode,          // IO Control code for Read
+			TBuf,				// Buffer to driver.
+			WSize + 16,		// Length of buffer in bytes.
+			RBuf,        // Buffer from driver.
+			RBSize,         // Length of buffer in bytes.
+			RSize,    // Bytes placed in DataBuffer.
+			NULL                // NULL means wait till op. completes.
+			);
+	#endif
 }
 
 DWORD PCI_GetStReg()
@@ -119,11 +119,11 @@ DWORD PCI_GetStReg()
 	DWORD DataLength;
 	DWORD ReturnedLength;
 	DWORD IoctlCode = IOCTL_GPD_READ_MEMORY_ULONG;
-#ifndef PMC6_WIN64
-	DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard];
-#else
-	UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard];
-#endif
+	#ifndef PMC6_WIN64
+		DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard];
+	#else
+		UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard];
+	#endif
 
 	DataLength = 4;
 
@@ -160,69 +160,69 @@ BOOL PCI_SetStReg(WORD bit,WORD On)
 	DWORD DataLength;
 	DWORD ReturnedLength;
 	DWORD IoctlCode = IOCTL_GPD_WRITE_MEMORY_ULONG;
-#ifndef PMC6_WIN64
-	DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard];
+	#ifndef PMC6_WIN64
+		DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard];
 
-	//emission_20100109_э到拜肈
-	BYTE* pbyData = (BYTE*)(&addr);
-	data_buf[0] = pbyData[0];
-	data_buf[1] = pbyData[1];
-	data_buf[2] = pbyData[2];
-	data_buf[3] = pbyData[3];
-#else
-	UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard];
+		//emission_20100109_э到拜肈
+		BYTE* pbyData = (BYTE*)(&addr);
+		data_buf[0] = pbyData[0];
+		data_buf[1] = pbyData[1];
+		data_buf[2] = pbyData[2];
+		data_buf[3] = pbyData[3];
+	#else
+		UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard];
 
-	//emission_20100109_э到拜肈
-	BYTE* pbyData = (BYTE*)(&addr);
-	data_buf[0] = pbyData[0];
-	data_buf[1] = pbyData[1];
-	data_buf[2] = pbyData[2];
-	data_buf[3] = pbyData[3];
-	data_buf[4] = pbyData[4];
-	data_buf[5] = pbyData[5];
-	data_buf[6] = pbyData[6];
-	data_buf[7] = pbyData[7];
-#endif
-	
-	StReg = PCI_GetStReg();
-	if(On)
-		StReg = StReg | mask;
-	else
-	{
-		mask = ~mask;
-		StReg = StReg & mask;
-	}
+		//emission_20100109_э到拜肈
+		BYTE* pbyData = (BYTE*)(&addr);
+		data_buf[0] = pbyData[0];
+		data_buf[1] = pbyData[1];
+		data_buf[2] = pbyData[2];
+		data_buf[3] = pbyData[3];
+		data_buf[4] = pbyData[4];
+		data_buf[5] = pbyData[5];
+		data_buf[6] = pbyData[6];
+		data_buf[7] = pbyData[7];
+	#endif
+		
+		StReg = PCI_GetStReg();
+		if(On)
+			StReg = StReg | mask;
+		else
+		{
+			mask = ~mask;
+			StReg = StReg & mask;
+		}
 
-	buf = (BYTE *)&StReg;
-#ifndef PMC6_WIN64
-	data_buf[4] = buf[0];
-	data_buf[5] = buf[1];
-	data_buf[6] = buf[2];
-	data_buf[7] = buf[3];
+		buf = (BYTE *)&StReg;
+	#ifndef PMC6_WIN64
+		data_buf[4] = buf[0];
+		data_buf[5] = buf[1];
+		data_buf[6] = buf[2];
+		data_buf[7] = buf[3];
 
-	DataLength = 8;
-#else
-	data_buf[8] = buf[0];
-	data_buf[9] = buf[1];
-	data_buf[10] = buf[2];
-	data_buf[11] = buf[3];
+		DataLength = 8;
+	#else
+		data_buf[8] = buf[0];
+		data_buf[9] = buf[1];
+		data_buf[10] = buf[2];
+		data_buf[11] = buf[3];
 
-	DataLength = 12;
-#endif
-	/*
-	memcpy(data_buf,&addr,4);
-	sStReg = PCI_GetStReg();
-	if(On)
-		sStReg = sStReg | mask;
-	else
-	{
-		mask = !mask;
-		sStReg = sStReg & mask;
-	}
-	memcpy(&data_buf[4],&buf[1],1);
-	memcpy(&data_buf[5],&buf[0],1);
-*/
-	//emission_20100109_э到拜肈
+		DataLength = 12;
+	#endif
+		/*
+		memcpy(data_buf,&addr,4);
+		sStReg = PCI_GetStReg();
+		if(On)
+			sStReg = sStReg | mask;
+		else
+		{
+			mask = !mask;
+			sStReg = sStReg & mask;
+		}
+		memcpy(&data_buf[4],&buf[1],1);
+		memcpy(&data_buf[5],&buf[0],1);
+		*/
+		//emission_20100109_э到拜肈
 
 
 
@@ -244,30 +244,30 @@ BOOL PCI_SetDataSize(WORD sDSize)
 	DWORD DataLength;
 	DWORD ReturnedLength;
 	DWORD IoctlCode = IOCTL_GPD_WRITE_MEMORY_USHORT;
-#ifndef PMC6_WIN64
-	DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_WRITE_OFFSET + 2;
+	#ifndef PMC6_WIN64
+		DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_WRITE_OFFSET + 2;
 
-	memcpy(data_buf,&addr,4);
-	buf = (BYTE *)&sDSize;
+		memcpy(data_buf,&addr,4);
+		buf = (BYTE *)&sDSize;
 
-	//emission_20100109_э到拜肈
-	data_buf[4] = buf[1];
-	data_buf[5] = buf[0];
-//	memcpy(&data_buf[4],&buf[1],1);
-//	memcpy(&data_buf[5],&buf[0],1);
-	//emission_20100109_э到拜肈
+		//emission_20100109_э到拜肈
+		data_buf[4] = buf[1];
+		data_buf[5] = buf[0];
+	//	memcpy(&data_buf[4],&buf[1],1);
+	//	memcpy(&data_buf[5],&buf[0],1);
+		//emission_20100109_э到拜肈
 
-	DataLength = 6;
+		DataLength = 6;
 
-#else
-	UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_WRITE_OFFSET + 2;
+	#else
+		UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_WRITE_OFFSET + 2;
 
-	memcpy(data_buf,&addr,8);
-	buf = (BYTE *)&sDSize;
-	data_buf[8] = buf[1];
-	data_buf[9] = buf[0];
-	DataLength = 10;
-#endif
+		memcpy(data_buf,&addr,8);
+		buf = (BYTE *)&sDSize;
+		data_buf[8] = buf[1];
+		data_buf[9] = buf[0];
+		DataLength = 10;
+	#endif
 
 	return g_DevPMC6.Dev_DeviceIo(                            
           IoctlCode,          // IO Control code for Read
@@ -287,30 +287,30 @@ WORD PCI_GetDataSize()
 	DWORD DataLength;
 	DWORD ReturnedLength;
 	DWORD IoctlCode = IOCTL_GPD_READ_MEMORY_USHORT;
-#ifndef PMC6_WIN64
-	DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_READ_OFFSET + 2;
-#else
-	UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_READ_OFFSET + 2;
-#endif
+	#ifndef PMC6_WIN64
+		DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_READ_OFFSET + 2;
+	#else
+		UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_READ_OFFSET + 2;
+	#endif
 	DataLength = 2;
 
 	g_DevPMC6.Dev_DeviceIo(                            
-          IoctlCode,          // IO Control code for Read
-          &addr,				// Buffer to driver.
-          sizeof(addr),		// Length of buffer in bytes.
-          buf,        // Buffer from driver.
-          DataLength,         // Length of buffer in bytes.
-          &ReturnedLength,    // Bytes placed in DataBuffer.
-          NULL                // NULL means wait till op. completes.
-          );
+			IoctlCode,          // IO Control code for Read
+			&addr,				// Buffer to driver.
+			sizeof(addr),		// Length of buffer in bytes.
+			buf,        // Buffer from driver.
+			DataLength,         // Length of buffer in bytes.
+			&ReturnedLength,    // Bytes placed in DataBuffer.
+			NULL                // NULL means wait till op. completes.
+			);
 	//emission_20100109_э到拜肈
 	BYTE* pbyData = (BYTE*)(&sDatabuf);
 	*pbyData = buf[1];
 
 	pbyData = (BYTE*)(&sDatabuf)+1;
 	*pbyData = buf[0];
-//	memcpy(((BYTE *)&sDatabuf)    ,&buf[1],1);
-//	memcpy(((BYTE *)&sDatabuf + 1),&buf[0],1);
+	//memcpy(((BYTE *)&sDatabuf)    ,&buf[1],1);
+	//memcpy(((BYTE *)&sDatabuf + 1),&buf[0],1);
 	//emission_20100109_э到拜肈
 
 	return sDatabuf;
@@ -323,26 +323,28 @@ BOOL PCI_Write(BYTE* data_buf,WORD data_count)
 	DWORD ReturnedLength;
 	BOOL IoctlResult;
 	DWORD IoctlCode;
-#ifndef PMC6_WIN64
-	DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_WRITE_OFFSET + 4;	
-#else
-	UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_WRITE_OFFSET + 4;	
-#endif
-	WORD PCI_StReg;
-	WORD data_count4; //data 4 计
-	WORD data_remain; // 獶4计逞緇戈
-	//wait write tag low
+	#ifndef PMC6_WIN64
+		DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_WRITE_OFFSET + 4;	
+	#else
+		UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_WRITE_OFFSET + 4;	
+	#endif
+		WORD PCI_StReg;
+		WORD data_count4; //data 4 计
+		WORD data_remain; // 獶4计逞緇戈
+		//wait write tag low
 
 
-#ifdef _NOCARD
-	if(g_DevPMC6.m_hHandle[g_DevPMC6.m_dwSelectCard] == NULL)
-	{
-		return 0;
-	}
-#endif
+	#ifdef _NOCARD
+		if(g_DevPMC6.m_hHandle[g_DevPMC6.m_dwSelectCard] == NULL)
+		{
+			return 0;
+		}
+	#endif
 
 	while((PCI_GetStReg() & 0x0001) == 0x0001)
-	{}
+	{
+
+	}
 
 	if(data_count > 4096)
 		return 0;
@@ -356,39 +358,39 @@ BOOL PCI_Write(BYTE* data_buf,WORD data_count)
 	//4
 	for(int i = 0 ; i< data_count4 ; i++)
 	{
-#ifndef PMC6_WIN64
-		memcpy(copy_buf,&addr,4);
-		memcpy(copy_buf + 4,data_buf + (i * 4),4);
-		DataLength =8;
-		addr+= 4;
+		#ifndef PMC6_WIN64
+				memcpy(copy_buf,&addr,4);
+				memcpy(copy_buf + 4,data_buf + (i * 4),4);
+				DataLength =8;
+				addr+= 4;
 
-		IoctlResult = g_DevPMC6.Dev_DeviceIo(                            
-		                        IoctlCode,          // IO Control code for Read
-			                    copy_buf,				// Buffer to driver.
-				                DataLength,		// Length of buffer in bytes.
-					            NULL,        // Buffer from driver.
-						        0,         // Length of buffer in bytes.
-							    &ReturnedLength,    // Bytes placed in DataBuffer.
-								NULL                // NULL means wait till op. completes.
-							    );
-#else
-		memcpy(copy_buf,&addr,8);
-		memcpy(copy_buf + 8,data_buf + (i * 4),4);
-		DataLength =12;
-		addr+= 4;
+				IoctlResult = g_DevPMC6.Dev_DeviceIo(                            
+										IoctlCode,          // IO Control code for Read
+										copy_buf,				// Buffer to driver.
+										DataLength,		// Length of buffer in bytes.
+										NULL,        // Buffer from driver.
+										0,         // Length of buffer in bytes.
+										&ReturnedLength,    // Bytes placed in DataBuffer.
+										NULL                // NULL means wait till op. completes.
+										);
+		#else
+				memcpy(copy_buf,&addr,8);
+				memcpy(copy_buf + 8,data_buf + (i * 4),4);
+				DataLength =12;
+				addr+= 4;
 
-		IoctlResult = g_DevPMC6.Dev_DeviceIo(                            
-		                        IoctlCode,          // IO Control code for Read
-			                    copy_buf,				// Buffer to driver.
-				                DataLength,		// Length of buffer in bytes.
-					            NULL,        // Buffer from driver.
-						        0,         // Length of buffer in bytes.
-							    &ReturnedLength,    // Bytes placed in DataBuffer.
-								NULL                // NULL means wait till op. completes.
-							    );
-#endif
-		if(!IoctlResult)
-			return IoctlResult;
+				IoctlResult = g_DevPMC6.Dev_DeviceIo(                            
+										IoctlCode,          // IO Control code for Read
+										copy_buf,				// Buffer to driver.
+										DataLength,		// Length of buffer in bytes.
+										NULL,        // Buffer from driver.
+										0,         // Length of buffer in bytes.
+										&ReturnedLength,    // Bytes placed in DataBuffer.
+										NULL                // NULL means wait till op. completes.
+										);
+		#endif
+				if(!IoctlResult)
+					return IoctlResult;
 	}
 
 	if(data_remain > 0)
@@ -397,24 +399,24 @@ BOOL PCI_Write(BYTE* data_buf,WORD data_count)
 		//1
 		for(int i = 0 ; i< data_remain ; i++)
 		{
-#ifndef PMC6_WIN64
-			memcpy(copy_buf,&addr,4);
-			memcpy(copy_buf + 4,data_buf + (i + data_count4 * 4),1);
-			DataLength =5;
-			addr++;
-			
-			IoctlResult = g_DevPMC6.Dev_DeviceIo(IoctlCode,copy_buf,DataLength,NULL,0,&ReturnedLength,NULL);
-#else
-			memcpy(copy_buf,&addr,8);
-			memcpy(copy_buf + 8,data_buf + (i + data_count4 * 4),1);
-			DataLength =9;
-			addr++;
-			
-			IoctlResult = g_DevPMC6.Dev_DeviceIo(IoctlCode,copy_buf,DataLength,NULL,0,&ReturnedLength,NULL);
+			#ifndef PMC6_WIN64
+					memcpy(copy_buf,&addr,4);
+					memcpy(copy_buf + 4,data_buf + (i + data_count4 * 4),1);
+					DataLength =5;
+					addr++;
+					
+					IoctlResult = g_DevPMC6.Dev_DeviceIo(IoctlCode,copy_buf,DataLength,NULL,0,&ReturnedLength,NULL);
+			#else
+					memcpy(copy_buf,&addr,8);
+					memcpy(copy_buf + 8,data_buf + (i + data_count4 * 4),1);
+					DataLength =9;
+					addr++;
+					
+					IoctlResult = g_DevPMC6.Dev_DeviceIo(IoctlCode,copy_buf,DataLength,NULL,0,&ReturnedLength,NULL);
 
-#endif
-			if(!IoctlResult)
-				return IoctlResult;
+			#endif
+					if(!IoctlResult)
+						return IoctlResult;
 		}
 	}
 
@@ -442,20 +444,20 @@ WORD PCI_Read(BYTE* data_buf,DWORD data_count)
 		for(i = 0;i < MAX_ID;i++)
 			index[i] = 0;
 	}	
-#ifndef PMC6_WIN64
-	DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_READ_OFFSET + 4 + index[g_DevPMC6.m_dwSelectCard];	
-#else
-	UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_READ_OFFSET + 4 + index[g_DevPMC6.m_dwSelectCard];	
-#endif
-	WORD data_count4;
-	WORD data_remain;
+	#ifndef PMC6_WIN64
+		DWORD addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_READ_OFFSET + 4 + index[g_DevPMC6.m_dwSelectCard];	
+	#else
+		UINT64 addr = g_DevPMC6.m_dwMemBases[g_DevPMC6.m_dwSelectCard] + PCI_READ_OFFSET + 4 + index[g_DevPMC6.m_dwSelectCard];	
+	#endif
+		WORD data_count4;
+		WORD data_remain;
 
-#ifdef _NOCARD
-	if(g_DevPMC6.m_hHandle[g_DevPMC6.m_dwSelectCard] == NULL)
-	{
-		return 1;
-	}
-#endif
+	#ifdef _NOCARD
+		if(g_DevPMC6.m_hHandle[g_DevPMC6.m_dwSelectCard] == NULL)
+		{
+			return 1;
+		}
+	#endif
 
 	//wait write tag low
 	if((PCI_GetStReg() & 0x0002) == 0x0002)
@@ -544,7 +546,10 @@ BOOL PCI_Write_Datas(unsigned short usCmd, char *pData, unsigned short usSize)
 	memcpy(szExt, &usCmd, 2);
 	memcpy(szExt + 2, &usSize, 2);
 	if(usSize > 0 && usSize <= 252)
+	{
 		memcpy(szExt + 4, pData, usSize);
+	}
+
 	do
 	{
 		if(!PCI_TransmitBlock(szExt, 4 + usSize, ReadBuf, sizeof(ReadBuf), &ReturnLen, ReBack))
@@ -552,6 +557,7 @@ BOOL PCI_Write_Datas(unsigned short usCmd, char *pData, unsigned short usSize)
 			bRet = FALSE;
 			break;
 		}
+
 		if(ReBack)
 		{
 			if(ReturnLen < 4)
@@ -575,6 +581,8 @@ BOOL PCI_Write_Datas(unsigned short usCmd, char *pData, unsigned short usSize)
 				}
 			}
 		}
+
 	}while(Ret == PCI_RETRY);
+
 	return bRet;
 }

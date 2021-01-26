@@ -7,7 +7,5 @@ EXPORTS
 InitialDev @ 1
 CloseDev @ 2
 SetLED @ 3
-SetPWM_JF8 @ 4
-SetPWM_JF7 @ 5
-SetAnalog_1 @ 6
-SetAnalog_2 @ 7
+SetPWM @ 4
+SetAnalog @ 5
