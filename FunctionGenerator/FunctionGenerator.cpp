@@ -105,16 +105,8 @@ DllExport void SetPWM(CMD_PWM CmdData, int iCH)
 	unsigned short usCmd;
 	char *pData;
 	unsigned short usSize;
-
-	if (iCH < 16)
-	{
-		usCmd = CMD_SETOUTPUT;
-	}
-	else
-	{
-		usCmd = CMD_SETOUTPUTEX;
-	}
 	
+	usCmd = CMD_SETDIGITAL;
 	pData = (char *)&CmdData;
 	usSize = sizeof(CmdData);
 
@@ -126,18 +118,40 @@ DllExport void SetAnalog(CMD_ANALOG CmdData, int iCH)
 	unsigned short usCmd;
 	char *pData;
 	unsigned short usSize;
-
-	if (iCH < 1)
-	{
-		usCmd = CMD_SETANALOG1OUT;
-	}
-	else
-	{
-		usCmd = CMD_SETANALOG2OUT;
-	}
 	
+	usCmd = CMD_SETANALOG;
 	pData = (char *)&CmdData;
 	usSize = sizeof(CmdData);
+
+	PCI_Write_Datas(usCmd, pData, usSize);
+}
+
+DllExport void SetStart()
+{
+	unsigned short usCmd;
+	char *pData;
+	unsigned short usSize;
+
+	int iData = 1;
+	
+	usCmd = CMD_SETSTART;
+	pData = (char *)&iData;
+	usSize = sizeof(iData);
+
+	PCI_Write_Datas(usCmd, pData, usSize);
+}
+
+DllExport void SetStop()
+{
+	unsigned short usCmd;
+	char *pData;
+	unsigned short usSize;
+
+	int iData = 1;
+	
+	usCmd = CMD_SETSTOP;
+	pData = (char *)&iData;
+	usSize = sizeof(iData);
 
 	PCI_Write_Datas(usCmd, pData, usSize);
 }
@@ -170,27 +184,45 @@ DllExport unsigned int GetLED()
 	return u32LEDstatus;
 }
 
-DllExport float GetDigital_Freq(int iCH)
+DllExport void GetParamPWM(CMD_PWM *CmdData, int iCH)
 {
 	unsigned short usCmd;
 	char *pData;
 	unsigned short usSize;
-	float fPWM_Freq;
+	int iParam;
 	
-	usCmd = CMD_GETDIGITAL_FREQ;
+	usCmd = CMD_GETDIGITAL;
 	pData = (char *)&iCH;
 	usSize = sizeof(iCH);
 
 	BOOL bRet = PCI_Write_Datas(usCmd, pData, usSize);
 	if (bRet)
 	{
-		memcpy(&fPWM_Freq, g_DevPMC6.m_ReadBuffer, sizeof(fPWM_Freq));
+		memcpy(&CmdData->m_iChannel, g_DevPMC6.m_ReadBuffer, sizeof(unsigned int));
 	}
 	else
 	{
 		AfxMessageBox(_T("ERROR: PCI failed to read data."));
-		fPWM_Freq = 0.0;
 	}
+}
 
-	return fPWM_Freq;
+DllExport void GetParamAnalog(CMD_ANALOG *CmdData, int iCH)
+{
+	unsigned short usCmd;
+	char *pData;
+	unsigned short usSize;
+	
+	usCmd = CMD_GETANALOG;
+	pData = (char *)&iCH;
+	usSize = sizeof(iCH);
+
+	BOOL bRet = PCI_Write_Datas(usCmd, pData, usSize);
+	if (bRet)
+	{
+		memcpy(&CmdData->m_iFunction, g_DevPMC6.m_ReadBuffer, sizeof(float));
+	}
+	else
+	{
+		AfxMessageBox(_T("ERROR: PCI failed to read data."));
+	}
 }

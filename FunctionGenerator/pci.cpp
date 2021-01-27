@@ -525,7 +525,7 @@ BOOL PCI_CheckReplay(unsigned short usCmd)
 
 	bReBack = FALSE;
 
-	if (usCmd == CMD_SETLED || usCmd == CMD_GETLED || usCmd == CMD_GETDIGITAL_FREQ)
+	if (usCmd == CMD_SETLED || usCmd == CMD_GETLED || usCmd == CMD_GETDIGITAL || usCmd == CMD_GETANALOG)
 	{
 		bReBack = TRUE;
 	}

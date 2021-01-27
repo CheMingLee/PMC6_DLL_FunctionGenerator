@@ -17,6 +17,7 @@
 // CMD structure
 typedef struct {
 	unsigned int m_iChannel;
+	int m_iflag;
 	float m_fFreq;
 	float m_fDuty;
 	float m_fDelay;
@@ -48,10 +49,9 @@ public:
 	DllExport void InitialDev();
 	DllExport void CloseDev();
 	DllExport unsigned int SetLED(unsigned int u32LEDdata);
-	DllExport void SetPWM(CMD_PWM CmdData);
-	DllExport void SetAnalog(CMD_ANALOG CmdData);
 	DllExport unsigned int GetLED();
-	DllExport float GetDigital_Freq(int iCH);
+	DllExport void SetPWM(CMD_PWM CmdData, int iCH);
+	DllExport void SetAnalog(CMD_ANALOG CmdData, int iCH);
 	
 	DECLARE_MESSAGE_MAP()
 };

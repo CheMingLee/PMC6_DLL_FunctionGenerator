@@ -7,7 +7,8 @@ EXPORTS
 InitialDev @ 1
 CloseDev @ 2
 SetLED @ 3
-SetPWM @ 4
-SetAnalog @ 5
-GetLED @ 6
-GetDigital_Freq @ 7
+GetLED @ 4
+SetPWM @ 5
+SetAnalog @ 6
+GetParam_float @ 7
+GetParam_int @ 8
