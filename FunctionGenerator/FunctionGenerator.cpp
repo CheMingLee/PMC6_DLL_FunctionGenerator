@@ -189,7 +189,6 @@ DllExport void GetParamPWM(CMD_PWM *CmdData, int iCH)
 	unsigned short usCmd;
 	char *pData;
 	unsigned short usSize;
-	int iParam;
 	
 	usCmd = CMD_GETDIGITAL;
 	pData = (char *)&iCH;
@@ -199,6 +198,10 @@ DllExport void GetParamPWM(CMD_PWM *CmdData, int iCH)
 	if (bRet)
 	{
 		memcpy(&CmdData->m_iChannel, g_DevPMC6.m_ReadBuffer, sizeof(unsigned int));
+		memcpy(&CmdData->m_iflag, g_DevPMC6.m_ReadBuffer + 4, sizeof(int));
+		memcpy(&CmdData->m_fFreq, g_DevPMC6.m_ReadBuffer + 8, sizeof(float));
+		memcpy(&CmdData->m_fDuty, g_DevPMC6.m_ReadBuffer + 12, sizeof(float));
+		memcpy(&CmdData->m_fDelay, g_DevPMC6.m_ReadBuffer + 16, sizeof(float));
 	}
 	else
 	{
@@ -219,7 +222,35 @@ DllExport void GetParamAnalog(CMD_ANALOG *CmdData, int iCH)
 	BOOL bRet = PCI_Write_Datas(usCmd, pData, usSize);
 	if (bRet)
 	{
-		memcpy(&CmdData->m_iFunction, g_DevPMC6.m_ReadBuffer, sizeof(float));
+		memcpy(&CmdData->m_iFunction, g_DevPMC6.m_ReadBuffer, sizeof(int));
+		memcpy(&CmdData->m_fFreq, g_DevPMC6.m_ReadBuffer + 4, sizeof(float));
+		memcpy(&CmdData->m_fAmp, g_DevPMC6.m_ReadBuffer + 8, sizeof(float));
+		memcpy(&CmdData->m_fRatio, g_DevPMC6.m_ReadBuffer + 12, sizeof(float));
+		memcpy(&CmdData->m_fDelay, g_DevPMC6.m_ReadBuffer + 16, sizeof(float));
+	}
+	else
+	{
+		AfxMessageBox(_T("ERROR: PCI failed to read data."));
+	}
+}
+
+DllExport void GetRunTime(double *pdRunTime)
+{
+	unsigned short usCmd;
+	char *pData;
+	unsigned short usSize;
+	int iData;
+
+	iData = 1;
+	
+	usCmd = CMD_GETRUNTIME;
+	pData = (char *)&iData;
+	usSize = sizeof(iData);
+
+	BOOL bRet = PCI_Write_Datas(usCmd, pData, usSize);
+	if (bRet)
+	{
+		memcpy(pdRunTime, g_DevPMC6.m_ReadBuffer, sizeof(double));
 	}
 	else
 	{

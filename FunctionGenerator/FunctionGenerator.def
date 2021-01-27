@@ -7,8 +7,11 @@ EXPORTS
 InitialDev @ 1
 CloseDev @ 2
 SetLED @ 3
-GetLED @ 4
-SetPWM @ 5
-SetAnalog @ 6
-GetParam_float @ 7
-GetParam_int @ 8
+SetPWM @ 4
+SetAnalog @ 5
+SetStart @ 6
+SetStop @ 7
+GetLED @ 8
+GetParamPWM @ 9
+GetParamAnalog @ 10
+GetRunTime @ 11

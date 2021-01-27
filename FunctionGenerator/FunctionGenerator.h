@@ -49,9 +49,14 @@ public:
 	DllExport void InitialDev();
 	DllExport void CloseDev();
 	DllExport unsigned int SetLED(unsigned int u32LEDdata);
-	DllExport unsigned int GetLED();
 	DllExport void SetPWM(CMD_PWM CmdData, int iCH);
 	DllExport void SetAnalog(CMD_ANALOG CmdData, int iCH);
+	DllExport void SetStart();
+	DllExport void SetStop();
+	DllExport unsigned int GetLED();
+	DllExport void GetParamPWM(CMD_PWM *CmdData, int iCH);
+	DllExport void GetParamAnalog(CMD_ANALOG *CmdData, int iCH);
+	DllExport void GetRunTime(double *pdRunTime);
 	
 	DECLARE_MESSAGE_MAP()
 };
