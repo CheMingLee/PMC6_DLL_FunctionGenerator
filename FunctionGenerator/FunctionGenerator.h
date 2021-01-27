@@ -16,7 +16,7 @@
 
 // CMD structure
 typedef struct {
-	unsigned int m_iChannel;
+	int m_iChannel;
 	int m_iflag;
 	float m_fFreq;
 	float m_fDuty;
@@ -24,6 +24,7 @@ typedef struct {
 }CMD_PWM;
 
 typedef struct {
+	int m_iChannel;
 	int m_iFunction;
 	float m_fFreq;
 	float m_fAmp;
