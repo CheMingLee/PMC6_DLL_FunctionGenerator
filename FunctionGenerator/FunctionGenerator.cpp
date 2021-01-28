@@ -197,11 +197,7 @@ DllExport void GetParamPWM(CMD_PWM *CmdData, int iCH)
 	BOOL bRet = PCI_Write_Datas(usCmd, pData, usSize);
 	if (bRet)
 	{
-		memcpy(&CmdData->m_iChannel, g_DevPMC6.m_ReadBuffer, sizeof(int));
-		memcpy(&CmdData->m_iflag, g_DevPMC6.m_ReadBuffer + 4, sizeof(int));
-		memcpy(&CmdData->m_fFreq, g_DevPMC6.m_ReadBuffer + 8, sizeof(float));
-		memcpy(&CmdData->m_fDuty, g_DevPMC6.m_ReadBuffer + 12, sizeof(float));
-		memcpy(&CmdData->m_fDelay, g_DevPMC6.m_ReadBuffer + 16, sizeof(float));
+		memcpy(CmdData, g_DevPMC6.m_ReadBuffer, sizeof(CMD_PWM));
 	}
 }
 
@@ -218,12 +214,7 @@ DllExport void GetParamAnalog(CMD_ANALOG *CmdData, int iCH)
 	BOOL bRet = PCI_Write_Datas(usCmd, pData, usSize);
 	if (bRet)
 	{
-		memcpy(&CmdData->m_iChannel, g_DevPMC6.m_ReadBuffer, sizeof(int));
-		memcpy(&CmdData->m_iFunction, g_DevPMC6.m_ReadBuffer + 4, sizeof(int));
-		memcpy(&CmdData->m_fFreq, g_DevPMC6.m_ReadBuffer + 8, sizeof(float));
-		memcpy(&CmdData->m_fAmp, g_DevPMC6.m_ReadBuffer + 12, sizeof(float));
-		memcpy(&CmdData->m_fRatio, g_DevPMC6.m_ReadBuffer + 16, sizeof(float));
-		memcpy(&CmdData->m_fDelay, g_DevPMC6.m_ReadBuffer + 20, sizeof(float));
+		memcpy(CmdData, g_DevPMC6.m_ReadBuffer, sizeof(CMD_ANALOG));
 	}
 }
 
