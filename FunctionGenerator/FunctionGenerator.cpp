@@ -203,10 +203,6 @@ DllExport void GetParamPWM(CMD_PWM *CmdData, int iCH)
 		memcpy(&CmdData->m_fDuty, g_DevPMC6.m_ReadBuffer + 12, sizeof(float));
 		memcpy(&CmdData->m_fDelay, g_DevPMC6.m_ReadBuffer + 16, sizeof(float));
 	}
-	else
-	{
-		AfxMessageBox(_T("ERROR: PCI failed to read data."));
-	}
 }
 
 DllExport void GetParamAnalog(CMD_ANALOG *CmdData, int iCH)
@@ -228,10 +224,6 @@ DllExport void GetParamAnalog(CMD_ANALOG *CmdData, int iCH)
 		memcpy(&CmdData->m_fAmp, g_DevPMC6.m_ReadBuffer + 12, sizeof(float));
 		memcpy(&CmdData->m_fRatio, g_DevPMC6.m_ReadBuffer + 16, sizeof(float));
 		memcpy(&CmdData->m_fDelay, g_DevPMC6.m_ReadBuffer + 20, sizeof(float));
-	}
-	else
-	{
-		AfxMessageBox(_T("ERROR: PCI failed to read data."));
 	}
 }
 
